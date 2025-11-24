@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: bookgen-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=bookgen_db
+    networks:
+      - bookgen-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bookgen-backend
+    ports:
+      - "8001:8001"
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017
+      - DB_NAME=bookgen_db
+      - CORS_ORIGINS=*
+      - EMERGENT_LLM_KEY=sk-emergent-53481295194106fE79
+    depends_on:
+      - mongodb
+    networks:
+      - bookgen-network
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
+    driver: local
+
+networks:
+  bookgen-network:
+    driver: bridge
