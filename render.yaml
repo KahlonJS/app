@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: ai-book-generator-backend
+    runtime: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && uvicorn server:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: MONGO_URL
+        sync: false
+      - key: DB_NAME
+        value: bookgen_db
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: EMERGENT_LLM_KEY
+        sync: false
+    healthCheckPath: /api/
+    plan: free
