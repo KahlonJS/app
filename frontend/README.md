@@ -1,3 +1,26 @@
+# Frontend (local dev notes)
+
+This project uses `craco` / Create React App tooling. Notes to run locally:
+
+- Recommended Node version: `18.20.8` (this repo had compatibility issues with Node 24).
+- I pinned `ajv@^8.11.0` in `devDependencies` to satisfy `ajv-keywords`/webpack tooling.
+
+Quick commands (PowerShell):
+
+```powershell
+# Use nvm-windows to switch to Node 18
+nvm install 18.20.8
+nvm use 18.20.8
+
+cd 'c:\Users\hp\New app\app\frontend'
+npm install --legacy-peer-deps
+npm run start   # dev server on http://127.0.0.1:3000
+
+# Production build
+npm run build
+```
+
+If you prefer Node v24 or later, you may need to resolve additional peer dependency warnings. The `ajv` pin was required to avoid the `Cannot find module 'ajv/dist/compile/codegen'` error when starting the dev server.
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
